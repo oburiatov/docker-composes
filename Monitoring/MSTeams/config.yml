@@ -1,0 +1,11 @@
+connectors:
+- blocker: ""
+- critical: ""
+- high: ""
+- apisources: ""
+- internal: ""
+- dpi: ""
+- rtn: ""
+- test: "" #for checking
+- api: ""
+- api-uat: ""

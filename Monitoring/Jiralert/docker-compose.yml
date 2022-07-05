@@ -1,0 +1,24 @@
+version: '3.3'
+
+networks:
+  default:
+    external:
+      name: localdev
+
+services:
+  prometheus:
+    image: oburiatov/jiralert:notifier
+    container_name: prometheus-jiralert
+    volumes:
+      - /opt/jiralert:/config
+    command:
+      - '--config.file=/conifg/jiralert.yml'
+      # - '--web.external-url=http://ks-dmp45.kyivstar.ua:9090/'
+    ports:
+      - 0.0.0.0:9097:9097
+    # environment:
+    #   - no_proxy=127.0.0.0/8,10.0.0.0/8,*.kyivstar.ua
+    #   - http_proxy=http://sgproxy.kyivstar.ua:3128
+    #   - https_proxy=http://sgproxy.kyivstar.ua:3128
+    #   - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    restart: always

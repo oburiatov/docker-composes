@@ -1,0 +1,23 @@
+version: '3.3'
+
+networks:
+  default:
+    external:
+      name: localdev
+
+services:
+  msteams:
+    image: bzon/prometheus-msteams:v1.3.0
+    container_name: prometheus-msteams
+    volumes:
+      - /opt/msteams:/etc/msteams
+    # command:
+      # - '--web.external-url=http://ks-dmp45.kyivstar.ua:9090/'
+    ports:
+      - 0.0.0.0:2000:2000
+    # environment:
+    #   - no_proxy=127.0.0.0/8,10.0.0.0/8,*.kyivstar.ua
+    #   - http_proxy=http://sgproxy.kyivstar.ua:3128
+    #   - https_proxy=http://sgproxy.kyivstar.ua:3128
+    #   - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    restart: always
