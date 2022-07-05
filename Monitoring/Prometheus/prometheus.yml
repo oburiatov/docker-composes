@@ -10,811 +10,811 @@ alerting:
   - static_configs:
     - targets: ['ks-dmp45.kyivstar.ua:9093']
 
-# # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-# rule_files:
-#   - "aerospike_rules.yaml"
-#   - "recording_rules.yml"
-#   - "postgres_exporter.yaml"
-#   - "node_exporter.yaml"
-#   - "main_metrics.yaml"
-#   - "gitlabci_exporter.yaml"
-#   - "nifi_exporter.yaml"
-#   - "nifi_rules.yaml"
-#   - "azure_blob-storage_rules.yaml"
-# # A scrape configuration containing exactly one endpoint to scrape:
-# # Here it's Prometheus itself.
-# scrape_configs:
-#   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-#   - job_name: 'prometheus'
-#     static_configs:
-#     - targets: ['localhost:9090']
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - "aerospike_rules.yaml"
+  - "recording_rules.yml"
+  - "postgres_exporter.yaml"
+  - "node_exporter.yaml"
+  - "main_metrics.yaml"
+  - "gitlabci_exporter.yaml"
+  - "nifi_exporter.yaml"
+  - "nifi_rules.yaml"
+  - "azure_blob-storage_rules.yaml"
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['localhost:9090']
 
-#   - job_name: 'federate'
-# #    scrape_interval: 60s
-#     honor_labels: true
-#     metrics_path: '/federate'
-#     params:
-#       'match[]':
-#         - '{namespace=~"dmp-cep-prod|prod|dmp-ignite-prod|dmp-infra|dmp-cep-beta|dmp-infra-beta"}'
-#     static_configs:
-#       - targets:
-#         - 'ks-dmp83.kyivstar.ua:31000'
+  - job_name: 'federate'
+#    scrape_interval: 60s
+    honor_labels: true
+    metrics_path: '/federate'
+    params:
+      'match[]':
+        - '{namespace=~"dmp-cep-prod|prod|dmp-ignite-prod|dmp-infra|dmp-cep-beta|dmp-infra-beta"}'
+    static_configs:
+      - targets:
+        - 'ks-dmp83.kyivstar.ua:31000'
 
-#   - job_name: 'api'
-#     scrape_interval: 5s
-#     honor_labels: true
-#     metrics_path: '/federate'
-#     params:
-#       'match[]':
-#         - '{namespace="dmp-api"}'
-#     static_configs:
-#       - targets:
-#         - 'ks-dmp83.kyivstar.ua:31000'
-
-
-#   - job_name: 'flink'
-# #    scrape_interval: 5s
-#     honor_labels: true
-#     metrics_path: '/federate'
-#     params:
-#       'match[]':
-#         - '{namespace="dmp-flink-beta"}'
-#     static_configs:
-#       - targets:
-#         - 'ks-dmp83.kyivstar.ua:31000'
-
-#   - job_name: 'kafka'
-#     scrape_interval: 30s
-#     static_configs:
-#       - targets:
-#         - 'ks-dmp-dev-ops.kyivstar.ua:9308'
-#     metrics_path: '/metrics'
-
-#   - job_name: 'kafka-dashbord'
-#     scrape_interval: 3s
-#     static_configs:
-#       - targets:
-#         - 'ks-dmp-dev-ops.kyivstar.ua:9309'
-#     metrics_path: '/metrics'
+  - job_name: 'api'
+    scrape_interval: 5s
+    honor_labels: true
+    metrics_path: '/federate'
+    params:
+      'match[]':
+        - '{namespace="dmp-api"}'
+    static_configs:
+      - targets:
+        - 'ks-dmp83.kyivstar.ua:31000'
 
 
-# ################################postgres_exporter############################################
-#   - job_name: 'postgres-exporter'
-#     static_configs:
-#       - targets:
-#         - 'k8s-01.dev.dmp.kyivstar.ua:9087' #dev dmp & ctl
-#         labels:
-#           env: 'dev'
-#           severity: 'Medium'
-#           system: 'Postgres'          
-#       - targets:
-#         - 'ks-dmp85.kyivstar.ua:9087' #beta
-#         labels:
-#           env: 'beta'
-#           severity: 'High'
-#           system: 'Postgres'
-#       - targets:
-#         - 'ks-dmp31.kyivstar.ua:9087' #prod RTN
-#         labels:
-#           env: 'prod-RTN'
-#           severity: 'Critical'
-#           system: 'Postgres'
-#       - targets:
-#         - 'ks-dmp03.kyivstar.ua:9087'
-#         labels:
-#           env: 'tech-db'
-#           severity: 'Blocker'
-#           system: 'Postgres'
-#       - targets:
-#         - 'ks-dmp-dev08.kyivstar.ua:9087'
-#         labels:
-#           env: 'dev-ctl'
-#           severity: 'Medium'
-#           system: 'Postgres'
-#       - targets:
-#         - 'ks-dmp45.kyivstar.ua:9087' 
-#         labels:
-#           env: 'lte-routers'
-#           severity: 'High'
-#           system: 'Postgres'          
-#       - targets:
-#         - 'ks-dmp118.kyivstar.ua:9087' 
-#         labels:
-#           env: 'prod'
-#           severity: 'Blocker'
-#           system: 'Postgres'
+  - job_name: 'flink'
+#    scrape_interval: 5s
+    honor_labels: true
+    metrics_path: '/federate'
+    params:
+      'match[]':
+        - '{namespace="dmp-flink-beta"}'
+    static_configs:
+      - targets:
+        - 'ks-dmp83.kyivstar.ua:31000'
 
-# ##################################mysql_exporter############################################
-#       - targets:
-#         - 'ks-dmp45.kyivstar.ua:9104' #app04
-#         labels:
-#           severity: 'Critical'
-#           system: 'MySQL'
-#           env: 'hive-metastore'
-# ##################################node_exporter############################################
+  - job_name: 'kafka'
+    scrape_interval: 30s
+    static_configs:
+      - targets:
+        - 'ks-dmp-dev-ops.kyivstar.ua:9308'
+    metrics_path: '/metrics'
 
-#   - job_name: 'node-exporter'
-#     static_configs:
-#       - targets:
-#         - 'ks-dmp-ftp01.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'SFTP server'
-#       - targets:
-#         - 'ks-dmp-ftp02.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'SFTP server'
-#       - targets:
-#         - 'ks-dmp01.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp02.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp03.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp04.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp05.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp06.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp07.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp08.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp09.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp10.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp11.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp12.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp13.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp14.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp15.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp16.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp17.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp18.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp19.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp20.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp21.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp22.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp23.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Kafka'
-#       - targets:
-#         - 'ks-dmp24.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Kafka'
-#       - targets:
-#         - 'ks-dmp25.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Kafka'
-#       - targets:
-#         - 'ks-dmp26.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'NiFi'
-#       - targets:
-#         - 'ks-dmp27.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'NiFi'
-#       - targets:
-#         - 'ks-dmp28.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'NiFi'
-#       - targets:
-#         - 'ks-dmp29.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'GitLab'
-#       - targets:
-#         - 'ks-dmp30.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'WSO2'
-#       - targets:
-#         - 'ks-dmp31.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'WSO2'
-#       - targets:
-#         - 'ks-dmp32.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp33.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp34.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp35.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp36.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp37.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp38.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp39.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp40.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp41.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp42.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp43.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp44.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp45.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Prometheus'
-#       - targets:
-#         - 'ks-dmp46.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp47.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp48.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp49.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp50.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp51.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp52.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp53.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp54.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Low'
-#           system: 'NVIDIA'
-#       - targets:
-#         - 'ks-dmp55.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Low'
-#           system: 'NVIDIA'
-#       - targets:
-#         - 'ks-dmp73.kyivstar.ua:9100'
-#         labels:
-#           severity: 'None'
-#           system: 'Nifi 3'
-#       - targets:
-#         - 'ks-dmp74.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp75.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp76.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp77.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp78.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp79.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp80.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp81.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp82.kyivstar.ua:9100'
-#         labels:
-#           severity: 'High'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp83.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp84.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp85.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp86.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp87.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp88.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp89.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp90.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp91.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp92.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp-app01.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Low'
-#           system: 'Test'
-#       - targets:
-#         - 'ks-dmp-app02.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Low'
-#           system: 'Airflow'
-#       - targets:
-#         - 'ks-dmp-app03.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Low'
-#           system: 'NiFi'
-#       - targets:
-#         - 'ks-dmp-app04.kyivstar.ua:9100'
-#         labels:
-#           severity: 'None'
-#           system: 'Test, Confluentinc/cp-kafka'
-#       - targets:
-#         - 'ks-dmp-app05.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Medium'
-#           system: 'Datahub'
-#       - targets:
-#         - 'ks-dmp-app06.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Low'
-#           system: 'AML'
-#       - targets:
-#         - 'ks-dmp-app07.kyivstar.ua:9100'
-#         labels:
-#           severity: 'None'
-#           system: 'Test'
-#       - targets:
-#         - 'ks-dmp-app08.kyivstar.ua:9100'
-#         labels:
-#           severity: 'None'
-#           system: 'Test'
-#       - targets:
-#         - 'ks-dmp-app09.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Directus'
-#       - targets:
-#         - 'ks-dmp-dev-ops.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Grafana'
-#       - targets:
-#         - 'ks-dmp-dev01:9100'
-#         labels:
-#           severity: 'Low'
-#           system: 'dev Kubernetes'
-#       - targets:
-#         - 'ks-dmp-dev02:9100'
-#         labels:
-#           severity: 'Low'
-#           system: 'dev Kubernetes'
-#       - targets:
-#         - 'ks-dmp-dev03:9100'
-#         labels:
-#           severity: 'Low'
-#           system: 'dev Kubernetes'
-#       - targets:
-#         - 'ks-dmp-dev04:9100'
-#         labels:
-#           severity: 'Low'
-#           system: 'dev Kubernetes'
-#       - targets:
-#         - 'ks-dmp-dev05:9100'
-#         labels:
-#           severity: 'Low'
-#           system: 'dev Kubernetes'
-#       - targets:
-#         - 'ks-dmp-dev06:9100'
-#         labels:
-#           severity: 'Low'
-#           system: 'dev Kubernetes'
-#       - targets:
-#         - 'ks-dmp-dev07:9100'
-#         labels:
-#           severity: 'Low'
-#           system: 'dev Kubernetes'
-#       - targets:
-#         - 'ks-dmp-dev08:9100'
-#         labels:
-#           severity: 'Low'
-#           system: 'dev Kafka, SFTP server, CTL'
-#       - targets:
-#         - 'nexus-vm.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Nexus'
-#       - targets:
-#         - 'multipass-dgt01.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Mongo prod'
-#       - targets:
-#         - 'multipass-whg01.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Mongo prod'
-#       - targets:
-#         - 'multipass-whg02.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Mongo prod'
-#       - targets:
-#         - 'ks-dmp110.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp111.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp112.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp113.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp114.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp115.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp116.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp117.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp118.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp119.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp120.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp121.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp122.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp123.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp124.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp125.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp126.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp127.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp128.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp129.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp116.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#       - targets:
-#         - 'ks-dmp122.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Kubernetes'
-#       - targets:
-#         - 'ks-dmp123.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp128.kyivstar.ua:9100'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'Hadoop'
-#       - targets:
-#         - 'ks-dmp129.kyivstar.ua:9100'
-#         labels:
+  - job_name: 'kafka-dashbord'
+    scrape_interval: 3s
+    static_configs:
+      - targets:
+        - 'ks-dmp-dev-ops.kyivstar.ua:9309'
+    metrics_path: '/metrics'
 
-#   - job_name: 'json-nifi-exporter'
-#     scrape_interval: 3s
-#     metrics_path: /probe
-#     static_configs:
-#       - targets:
-#         - 'http://ks-dmp26:9090/nifi-api/controller/cluster'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'NiFi'
-#     relabel_configs:
-#       - source_labels: [__address__]
-#         target_label: __param_target
-#       - source_labels: [__param_target]
-#         target_label: instance
-#       - target_label: __address__
-#         replacement: ks-dmp45.kyivstar.ua:7979
 
-# ##################################gitlabci_exporter############################################
+################################postgres_exporter############################################
+  - job_name: 'postgres-exporter'
+    static_configs:
+      - targets:
+        - 'k8s-01.dev.dmp.kyivstar.ua:9087' #dev dmp & ctl
+        labels:
+          env: 'dev'
+          severity: 'Medium'
+          system: 'Postgres'          
+      - targets:
+        - 'ks-dmp85.kyivstar.ua:9087' #beta
+        labels:
+          env: 'beta'
+          severity: 'High'
+          system: 'Postgres'
+      - targets:
+        - 'ks-dmp31.kyivstar.ua:9087' #prod RTN
+        labels:
+          env: 'prod-RTN'
+          severity: 'Critical'
+          system: 'Postgres'
+      - targets:
+        - 'ks-dmp03.kyivstar.ua:9087'
+        labels:
+          env: 'tech-db'
+          severity: 'Blocker'
+          system: 'Postgres'
+      - targets:
+        - 'ks-dmp-dev08.kyivstar.ua:9087'
+        labels:
+          env: 'dev-ctl'
+          severity: 'Medium'
+          system: 'Postgres'
+      - targets:
+        - 'ks-dmp45.kyivstar.ua:9087' 
+        labels:
+          env: 'lte-routers'
+          severity: 'High'
+          system: 'Postgres'          
+      - targets:
+        - 'ks-dmp118.kyivstar.ua:9087' 
+        labels:
+          env: 'prod'
+          severity: 'Blocker'
+          system: 'Postgres'
 
-#   - job_name: 'gitlabci-exporter'
-#     static_configs:
-#      - targets:
-#        - 'ks-dmp45.kyivstar.ua:9092'
+##################################mysql_exporter############################################
+      - targets:
+        - 'ks-dmp45.kyivstar.ua:9104' #app04
+        labels:
+          severity: 'Critical'
+          system: 'MySQL'
+          env: 'hive-metastore'
+##################################node_exporter############################################
+
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets:
+        - 'ks-dmp-ftp01.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'SFTP server'
+      - targets:
+        - 'ks-dmp-ftp02.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'SFTP server'
+      - targets:
+        - 'ks-dmp01.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp02.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp03.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp04.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp05.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp06.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp07.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp08.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp09.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp10.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp11.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp12.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp13.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp14.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp15.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp16.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp17.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp18.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp19.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp20.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp21.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp22.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp23.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Kafka'
+      - targets:
+        - 'ks-dmp24.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Kafka'
+      - targets:
+        - 'ks-dmp25.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Kafka'
+      - targets:
+        - 'ks-dmp26.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'NiFi'
+      - targets:
+        - 'ks-dmp27.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'NiFi'
+      - targets:
+        - 'ks-dmp28.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'NiFi'
+      - targets:
+        - 'ks-dmp29.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'GitLab'
+      - targets:
+        - 'ks-dmp30.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'WSO2'
+      - targets:
+        - 'ks-dmp31.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'WSO2'
+      - targets:
+        - 'ks-dmp32.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp33.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp34.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp35.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp36.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp37.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp38.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp39.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp40.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp41.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp42.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp43.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp44.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp45.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Prometheus'
+      - targets:
+        - 'ks-dmp46.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp47.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp48.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp49.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp50.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp51.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp52.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp53.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp54.kyivstar.ua:9100'
+        labels:
+          severity: 'Low'
+          system: 'NVIDIA'
+      - targets:
+        - 'ks-dmp55.kyivstar.ua:9100'
+        labels:
+          severity: 'Low'
+          system: 'NVIDIA'
+      - targets:
+        - 'ks-dmp73.kyivstar.ua:9100'
+        labels:
+          severity: 'None'
+          system: 'Nifi 3'
+      - targets:
+        - 'ks-dmp74.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp75.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp76.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp77.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp78.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp79.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp80.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp81.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp82.kyivstar.ua:9100'
+        labels:
+          severity: 'High'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp83.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp84.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp85.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp86.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp87.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp88.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp89.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp90.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp91.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp92.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp-app01.kyivstar.ua:9100'
+        labels:
+          severity: 'Low'
+          system: 'Test'
+      - targets:
+        - 'ks-dmp-app02.kyivstar.ua:9100'
+        labels:
+          severity: 'Low'
+          system: 'Airflow'
+      - targets:
+        - 'ks-dmp-app03.kyivstar.ua:9100'
+        labels:
+          severity: 'Low'
+          system: 'NiFi'
+      - targets:
+        - 'ks-dmp-app04.kyivstar.ua:9100'
+        labels:
+          severity: 'None'
+          system: 'Test, Confluentinc/cp-kafka'
+      - targets:
+        - 'ks-dmp-app05.kyivstar.ua:9100'
+        labels:
+          severity: 'Medium'
+          system: 'Datahub'
+      - targets:
+        - 'ks-dmp-app06.kyivstar.ua:9100'
+        labels:
+          severity: 'Low'
+          system: 'AML'
+      - targets:
+        - 'ks-dmp-app07.kyivstar.ua:9100'
+        labels:
+          severity: 'None'
+          system: 'Test'
+      - targets:
+        - 'ks-dmp-app08.kyivstar.ua:9100'
+        labels:
+          severity: 'None'
+          system: 'Test'
+      - targets:
+        - 'ks-dmp-app09.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Directus'
+      - targets:
+        - 'ks-dmp-dev-ops.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Grafana'
+      - targets:
+        - 'ks-dmp-dev01:9100'
+        labels:
+          severity: 'Low'
+          system: 'dev Kubernetes'
+      - targets:
+        - 'ks-dmp-dev02:9100'
+        labels:
+          severity: 'Low'
+          system: 'dev Kubernetes'
+      - targets:
+        - 'ks-dmp-dev03:9100'
+        labels:
+          severity: 'Low'
+          system: 'dev Kubernetes'
+      - targets:
+        - 'ks-dmp-dev04:9100'
+        labels:
+          severity: 'Low'
+          system: 'dev Kubernetes'
+      - targets:
+        - 'ks-dmp-dev05:9100'
+        labels:
+          severity: 'Low'
+          system: 'dev Kubernetes'
+      - targets:
+        - 'ks-dmp-dev06:9100'
+        labels:
+          severity: 'Low'
+          system: 'dev Kubernetes'
+      - targets:
+        - 'ks-dmp-dev07:9100'
+        labels:
+          severity: 'Low'
+          system: 'dev Kubernetes'
+      - targets:
+        - 'ks-dmp-dev08:9100'
+        labels:
+          severity: 'Low'
+          system: 'dev Kafka, SFTP server, CTL'
+      - targets:
+        - 'nexus-vm.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Nexus'
+      - targets:
+        - 'multipass-dgt01.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Mongo prod'
+      - targets:
+        - 'multipass-whg01.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Mongo prod'
+      - targets:
+        - 'multipass-whg02.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Mongo prod'
+      - targets:
+        - 'ks-dmp110.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp111.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp112.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp113.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp114.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp115.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp116.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp117.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp118.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp119.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp120.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp121.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp122.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp123.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp124.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp125.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp126.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp127.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp128.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp129.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp116.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+      - targets:
+        - 'ks-dmp122.kyivstar.ua:9100'
+        labels:
+          severity: 'Critical'
+          system: 'Kubernetes'
+      - targets:
+        - 'ks-dmp123.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp128.kyivstar.ua:9100'
+        labels:
+          severity: 'Blocker'
+          system: 'Hadoop'
+      - targets:
+        - 'ks-dmp129.kyivstar.ua:9100'
+        labels:
+
+  - job_name: 'json-nifi-exporter'
+    scrape_interval: 3s
+    metrics_path: /probe
+    static_configs:
+      - targets:
+        - 'http://ks-dmp26:9090/nifi-api/controller/cluster'
+        labels:
+          severity: 'Blocker'
+          system: 'NiFi'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: ks-dmp45.kyivstar.ua:7979
+
+##################################gitlabci_exporter############################################
+
+  - job_name: 'gitlabci-exporter'
+    static_configs:
+     - targets:
+       - 'ks-dmp45.kyivstar.ua:9092'
                     
 
 
-# #################################nifi_exporter##################################################
-#   - job_name: 'nifi-To-Azure-exporter'
-#     static_configs:
-#       - targets:
-#         - 'ks-dmp114:9092'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'NiFi'
+#################################nifi_exporter##################################################
+  - job_name: 'nifi-To-Azure-exporter'
+    static_configs:
+      - targets:
+        - 'ks-dmp114:9092'
+        labels:
+          severity: 'Blocker'
+          system: 'NiFi'
 
 
-# #################################nifi-cdr-exporter#################################################
-#   - job_name: 'nifi-cdr-exporter'
-#     static_configs:
-#       - targets:
-#         - 'ks-dmp85:32701'
-#         labels:
-#           severity: 'Blocker'
-#           system: 'NiFi'
+#################################nifi-cdr-exporter#################################################
+  - job_name: 'nifi-cdr-exporter'
+    static_configs:
+      - targets:
+        - 'ks-dmp85:32701'
+        labels:
+          severity: 'Blocker'
+          system: 'NiFi'
 
 
-# #################################azure_exporter#################################################
-#   - job_name: 'azure-stadmpbackupwesteu01p-exporter'
-#     static_configs:
-#       - targets:
-#         - 'ks-dmp45:9359'
-#         labels:
-#           severity: 'Critical'
-#           system: 'Postgres'
+#################################azure_exporter#################################################
+  - job_name: 'azure-stadmpbackupwesteu01p-exporter'
+    static_configs:
+      - targets:
+        - 'ks-dmp45:9359'
+        labels:
+          severity: 'Critical'
+          system: 'Postgres'
 
-# #################################azure_exporter#################################################
-# #  - job_name: 'azure-adlsdmpbackupwesteu01p-exporter'
-# #    static_configs:
-# #      - targets:
-# #        - 'ks-dmp45:8765'
-# #        labels:
-# #          severity: 'Blocker'
-# #          system: 'DMP'
-# #    scrape_interval: 5m
-# #    scrape_timeout: 5m
+#################################azure_exporter#################################################
+#  - job_name: 'azure-adlsdmpbackupwesteu01p-exporter'
+#    static_configs:
+#      - targets:
+#        - 'ks-dmp45:8765'
+#        labels:
+#          severity: 'Blocker'
+#          system: 'DMP'
+#    scrape_interval: 5m
+#    scrape_timeout: 5m
